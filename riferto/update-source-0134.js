@@ -1,66 +1,53 @@
 const KEY='riferto-update-source-url';
 const DEFAULT_SOURCE='https://making-lemonade.github.io/riferto/';
+const LAYOUT_KEY='riferto-layout-mode';
+const THEME_KEY='riferto-theme-mode';
+const BACKUP_DIR_META='backup-directory-handle';
 
-function normalizeSource(value){
-  const url=new URL(String(value||DEFAULT_SOURCE).trim());
-  if(url.protocol!=='https:'&&url.protocol!=='http:')throw new Error('Usa un URL http o https valido.');
-  url.hash='';url.search='';
-  if(!url.pathname.endsWith('/'))url.pathname+='/';
-  return url.href;
-}
-function getSource(){
-  try{return normalizeSource(localStorage.getItem(KEY)||DEFAULT_SOURCE)}catch{return DEFAULT_SOURCE}
-}
-function sourceState(){
-  const source=new URL(getSource());
-  const here=new URL('./',location.href);
-  return{source,here,sameOrigin:source.origin===here.origin,sameBase:source.href===here.href};
-}
-
+function normalizeSource(value){const url=new URL(String(value||DEFAULT_SOURCE).trim());if(url.protocol!=='https:'&&url.protocol!=='http:')throw new Error('Usa un URL http o https valido.');url.hash='';url.search='';if(!url.pathname.endsWith('/'))url.pathname+='/';return url.href}
+function getSource(){try{return normalizeSource(localStorage.getItem(KEY)||DEFAULT_SOURCE)}catch{return DEFAULT_SOURCE}}
+function sourceState(){const source=new URL(getSource()),here=new URL('./',location.href);return{source,here,sameOrigin:source.origin===here.origin,sameBase:source.href===here.href}}
 window.RifertoUpdateSource={key:KEY,defaultSource:DEFAULT_SOURCE,get:getSource,normalize:normalizeSource};
+
+const style=document.createElement('style');
+style.textContent=`
+.update-source-settings{margin-left:0!important;margin-right:0!important;padding-left:0!important;padding-right:0!important}.update-source-settings .settings-disclosure-body{padding-left:0!important;padding-right:0!important}.update-source-settings .field,.update-source-settings .settings-actions,.update-source-settings .caption{width:100%;max-width:100%;margin-left:0;margin-right:0}.update-source-settings input{min-width:0;width:100%;overflow:hidden;text-overflow:ellipsis}.update-source-actions{grid-template-columns:1fr 1fr!important}.update-source-actions #resetUpdateSourceBtn{grid-column:1/-1}
+.preference-card .settings-row{display:grid;gap:7px;margin-top:14px}.preference-card .settings-row:first-of-type{margin-top:10px}.preference-card select{width:100%}.backup-folder-status{margin:8px 0 0}.backup-folder-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+html[data-riferto-layout="landscape"] .app-shell{width:min(100%,1180px)!important}html[data-riferto-layout="landscape"] .settings-stack{grid-template-columns:repeat(2,minmax(0,1fr))!important}html[data-riferto-layout="landscape"] .settings-stack>.data-tools-card,html[data-riferto-layout="landscape"] .settings-stack>.backup-warning-card,html[data-riferto-layout="landscape"] .settings-stack>.changelog-card,html[data-riferto-layout="landscape"] .settings-stack>.update-available-card{grid-column:1/-1}html[data-riferto-layout="landscape"] .hero{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:end;gap:24px}html[data-riferto-layout="landscape"] .hero .primary-btn{width:auto!important;min-width:170px;margin:0!important}html[data-riferto-layout="portrait"] .app-shell{width:min(100%,620px)!important}html[data-riferto-layout="portrait"] .settings-stack{grid-template-columns:1fr!important}
+html[data-riferto-theme="dark"]{color-scheme:dark;--bg:#0d1420;--text:#eef4ff;--muted:#9eabc0;--line:rgba(255,255,255,.10);--surface:rgba(26,36,52,.84);--surface-strong:rgba(31,43,61,.96);--hairline:rgba(255,255,255,.10);--shadow-soft:0 14px 38px rgba(0,0,0,.28)}html[data-riferto-theme="dark"] body{background:linear-gradient(180deg,#0c1420 0%,#111b2a 50%,#0d1521 100%)!important;color:var(--text)!important}html[data-riferto-theme="dark"] .glass,html[data-riferto-theme="dark"] .glass-subtle,html[data-riferto-theme="dark"] .card,html[data-riferto-theme="dark"] .report-card,html[data-riferto-theme="dark"] .settings-card,html[data-riferto-theme="dark"] .empty-state,html[data-riferto-theme="dark"] .topbar,html[data-riferto-theme="dark"] .hero{background:linear-gradient(145deg,rgba(31,43,61,.94),rgba(19,29,44,.88))!important;border-color:rgba(255,255,255,.10)!important;color:var(--text)!important}html[data-riferto-theme="dark"] .secondary-btn,html[data-riferto-theme="dark"] .glass-control,html[data-riferto-theme="dark"] .field input,html[data-riferto-theme="dark"] .field textarea,html[data-riferto-theme="dark"] select{background:rgba(15,24,37,.78)!important;color:var(--text)!important;border-color:rgba(255,255,255,.12)!important}html[data-riferto-theme="dark"] .bottom-nav{background:rgba(18,28,43,.96)!important;border-color:rgba(255,255,255,.10)!important}html[data-riferto-theme="dark"] .bottom-nav-btn.active{background:rgba(50,67,91,.88)!important;color:#fff!important}html[data-riferto-theme="dark"] .muted,html[data-riferto-theme="dark"] .caption,html[data-riferto-theme="dark"] .eyebrow,html[data-riferto-theme="dark"] .field>span{color:#aebbd0!important}html[data-riferto-theme="dark"] .sheet-dialog::backdrop{background:rgba(0,0,0,.62)!important}
+.password-autofill-dialog{z-index:40000}.password-autofill-dialog .sheet{max-width:480px}.password-autofill-dialog .field{margin:12px 0}.password-autofill-dialog .primary-btn{width:100%}
+@media(max-width:620px){.update-source-actions,.backup-folder-actions{grid-template-columns:1fr!important}.update-source-actions #resetUpdateSourceBtn{grid-column:auto}}
+`;
+document.head.appendChild(style);
+
+function isDesktop(){return !/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)&&(matchMedia('(pointer:fine)').matches||innerWidth>=760)}
+function applyLayout(){const mode=localStorage.getItem(LAYOUT_KEY)||'auto';const resolved=mode==='auto'?(isDesktop()?'landscape':(innerWidth>innerHeight?'landscape':'portrait')):mode;document.documentElement.dataset.rifertoLayout=resolved}
+function applyTheme(){const mode=localStorage.getItem(THEME_KEY)||'auto';const resolved=mode==='auto'?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):mode;document.documentElement.dataset.rifertoTheme=resolved}
+applyLayout();applyTheme();addEventListener('resize',()=>{if((localStorage.getItem(LAYOUT_KEY)||'auto')==='auto')applyLayout()});matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>{if((localStorage.getItem(THEME_KEY)||'auto')==='auto')applyTheme()});
 
 const forceBtn=document.querySelector('#forceUpdateBtn');
 const appCard=forceBtn?.closest('.settings-card');
-if(appCard){
-  const details=document.createElement('details');
-  details.className='settings-disclosure update-source-settings';
-  details.innerHTML=`
-    <summary><span>Origine aggiornamenti</span><small>Gestisci URL app</small></summary>
-    <div class="settings-disclosure-body">
-      <label class="field"><span>URL sorgente Riferto</span><input id="updateSourceUrl" type="url" inputmode="url" autocomplete="url" spellcheck="false"></label>
-      <p id="updateSourceInfo" class="caption"></p>
-      <div class="settings-actions update-source-actions">
-        <button id="saveUpdateSourceBtn" class="primary-btn" type="button">Salva URL</button>
-        <button id="openUpdateSourceBtn" class="secondary-btn" type="button">Apri URL</button>
-        <button id="resetUpdateSourceBtn" class="secondary-btn" type="button">Ripristina predefinito</button>
-      </div>
-      <p class="caption update-source-warning">Se l'indirizzo passa a un dominio diverso, il nuovo sito non può leggere automaticamente l'archivio locale del vecchio dominio. Esporta prima un backup <strong>.riferto</strong>.</p>
-    </div>`;
-  appCard.appendChild(details);
-  const input=details.querySelector('#updateSourceUrl');
-  const info=details.querySelector('#updateSourceInfo');
-  const render=()=>{
-    input.value=getSource();
-    const s=sourceState();
-    if(s.sameBase)info.textContent='Questa è la sorgente attualmente aperta.';
-    else if(s.sameOrigin)info.textContent='URL diverso ma stesso dominio: l’archivio IndexedDB resta sulla stessa origine.';
-    else info.textContent='Dominio diverso: prima del passaggio esporta un backup .riferto.';
-  };
-  details.querySelector('#saveUpdateSourceBtn').onclick=()=>{
-    try{
-      const value=normalizeSource(input.value);
-      localStorage.setItem(KEY,value);
-      render();
-      window.dispatchEvent(new CustomEvent('riferto:update-source-changed',{detail:{url:value}}));
-      alert('URL aggiornamenti salvato. I prossimi controlli useranno questo indirizzo.');
-    }catch(e){alert(e?.message||'URL non valido.');}
-  };
-  details.querySelector('#resetUpdateSourceBtn').onclick=()=>{
-    localStorage.removeItem(KEY);render();
-    window.dispatchEvent(new CustomEvent('riferto:update-source-changed',{detail:{url:DEFAULT_SOURCE}}));
-  };
-  details.querySelector('#openUpdateSourceBtn').onclick=()=>{
-    try{window.open(getSource(),'_blank','noopener,noreferrer')}catch{location.href=getSource()}
-  };
-  render();
-}
+if(appCard){const details=document.createElement('details');details.className='settings-disclosure update-source-settings';details.innerHTML=`<summary><span>Origine aggiornamenti</span><small>Gestisci URL app</small></summary><div class="settings-disclosure-body"><label class="field"><span>URL sorgente Riferto</span><input id="updateSourceUrl" type="url" inputmode="url" autocomplete="url" spellcheck="false"></label><p id="updateSourceInfo" class="caption"></p><div class="settings-actions update-source-actions"><button id="saveUpdateSourceBtn" class="primary-btn" type="button">Salva URL</button><button id="openUpdateSourceBtn" class="secondary-btn" type="button">Apri URL</button><button id="resetUpdateSourceBtn" class="secondary-btn" type="button">Ripristina predefinito</button></div><p class="caption update-source-warning">Se l'indirizzo passa a un dominio diverso, il nuovo sito non può leggere automaticamente l'archivio locale del vecchio dominio. Esporta prima un backup <strong>.riferto</strong>.</p></div>`;appCard.appendChild(details);const input=details.querySelector('#updateSourceUrl'),info=details.querySelector('#updateSourceInfo');const render=()=>{input.value=getSource();const s=sourceState();info.textContent=s.sameBase?'Questa è la sorgente attualmente aperta.':s.sameOrigin?'URL diverso ma stesso dominio: l’archivio IndexedDB resta sulla stessa origine.':'Dominio diverso: prima del passaggio esporta un backup .riferto.'};details.querySelector('#saveUpdateSourceBtn').onclick=()=>{try{const value=normalizeSource(input.value);localStorage.setItem(KEY,value);render();window.dispatchEvent(new CustomEvent('riferto:update-source-changed',{detail:{url:value}}));alert('URL aggiornamenti salvato. I prossimi controlli useranno questo indirizzo.')}catch(e){alert(e?.message||'URL non valido.')}};details.querySelector('#resetUpdateSourceBtn').onclick=()=>{localStorage.removeItem(KEY);render();window.dispatchEvent(new CustomEvent('riferto:update-source-changed',{detail:{url:DEFAULT_SOURCE}}))};details.querySelector('#openUpdateSourceBtn').onclick=()=>{try{window.open(getSource(),'_blank','noopener,noreferrer')}catch{location.href=getSource()}};render()}
+
+const settingsStack=document.querySelector('.app-section[data-section="settings"] .settings-stack');
+if(settingsStack){const pref=document.createElement('article');pref.className='glass settings-card preference-card';pref.innerHTML=`<div><p class="eyebrow">Aspetto</p><h3>Layout e tema</h3><p class="muted">Su Mac e PC Riferto usa automaticamente il layout ampio. Puoi forzare il comportamento per questo dispositivo.</p></div><label class="settings-row"><span>Layout</span><select id="rifertoLayoutMode" class="glass-control"><option value="auto">Automatico</option><option value="portrait">Portrait</option><option value="landscape">Landscape / desktop</option></select></label><label class="settings-row"><span>Tema</span><select id="rifertoThemeMode" class="glass-control"><option value="auto">Automatico</option><option value="light">Chiaro</option><option value="dark">Scuro</option></select></label>`;const languageCard=document.querySelector('#languageSelect')?.closest('.settings-card');if(languageCard)languageCard.insertAdjacentElement('beforebegin',pref);else settingsStack.appendChild(pref);const ls=pref.querySelector('#rifertoLayoutMode'),ts=pref.querySelector('#rifertoThemeMode');ls.value=localStorage.getItem(LAYOUT_KEY)||'auto';ts.value=localStorage.getItem(THEME_KEY)||'auto';ls.onchange=()=>{localStorage.setItem(LAYOUT_KEY,ls.value);applyLayout()};ts.onchange=()=>{localStorage.setItem(THEME_KEY,ts.value);applyTheme()}}
+
+function dbOpen(){return new Promise((resolve,reject)=>{const r=indexedDB.open('riferto-db',1);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
+async function metaGet(id){const db=await dbOpen();return new Promise((resolve,reject)=>{const tx=db.transaction('meta','readonly'),r=tx.objectStore('meta').get(id);r.onsuccess=()=>{db.close();resolve(r.result||null)};r.onerror=()=>{db.close();reject(r.error)}})}
+async function metaPut(value){const db=await dbOpen();return new Promise((resolve,reject)=>{const tx=db.transaction('meta','readwrite'),r=tx.objectStore('meta').put(value);r.onsuccess=()=>{db.close();resolve()};r.onerror=()=>{db.close();reject(r.error)}})}
+async function metaDelete(id){const db=await dbOpen();return new Promise((resolve,reject)=>{const tx=db.transaction('meta','readwrite'),r=tx.objectStore('meta').delete(id);r.onsuccess=()=>{db.close();resolve()};r.onerror=()=>{db.close();reject(r.error)}})}
+let backupDirHandle=null,backupDirGranted=false,lastBackupBlob=null;
+async function refreshBackupDir(){const row=await metaGet(BACKUP_DIR_META).catch(()=>null);backupDirHandle=row?.handle||null;backupDirGranted=false;if(backupDirHandle?.queryPermission){try{backupDirGranted=(await backupDirHandle.queryPermission({mode:'readwrite'}))==='granted'}catch{}}const status=document.querySelector('#backupFolderStatus');if(status)status.textContent=backupDirHandle?(backupDirGranted?'Cartella configurata e autorizzata.':'Cartella configurata: autorizzazione da confermare al prossimo salvataggio.'):'Nessuna cartella configurata.'}
+async function chooseBackupDir(){if(!window.showDirectoryPicker){alert('Su iPhone/iPad Safari non consente a una PWA di mantenere un accesso permanente a una cartella iCloud. Il backup continuerà ad aprire il salvataggio tramite File/Condividi. Su macOS/Windows con browser compatibile puoi invece scegliere una cartella predefinita.');return}try{const handle=await showDirectoryPicker({mode:'readwrite',id:'riferto-backup-folder'});await metaPut({id:BACKUP_DIR_META,handle});backupDirHandle=handle;backupDirGranted=true;await refreshBackupDir()}catch(e){if(e?.name!=='AbortError')alert('Non riesco a salvare la cartella selezionata.') }}
+async function ensureDirPermission(){if(!backupDirHandle)return false;try{let p=await backupDirHandle.queryPermission({mode:'readwrite'});if(p!=='granted')p=await backupDirHandle.requestPermission({mode:'readwrite'});backupDirGranted=p==='granted';return backupDirGranted}catch{return false}}
+async function writeBackupToFolder(blob,name){if(!(await ensureDirPermission()))return false;try{const f=await backupDirHandle.getFileHandle(name,{create:true}),w=await f.createWritable();await w.write(blob);await w.close();localStorage.setItem('riferto-last-backup-folder-write',new Date().toISOString());window.dispatchEvent(new CustomEvent('riferto:backup-folder-written',{detail:{name}}));return true}catch(e){console.warn('Backup folder write',e);return false}}
+if(settingsStack){const card=document.createElement('article');card.className='glass settings-card';card.innerHTML=`<div><p class="eyebrow">Backup</p><h3>Cartella predefinita</h3><p class="muted">Su desktop puoi autorizzare una cartella locale o sincronizzata, per esempio iCloud Drive. Riferto copierà automaticamente lì ogni nuovo backup .riferto. Su iOS il sistema non offre un permesso persistente equivalente.</p></div><p id="backupFolderStatus" class="caption backup-folder-status"></p><div class="backup-folder-actions"><button id="chooseBackupFolderBtn" class="secondary-btn" type="button">Scegli cartella</button><button id="clearBackupFolderBtn" class="secondary-btn" type="button">Rimuovi cartella</button></div>`;const dataTools=document.querySelector('.data-tools-card');if(dataTools)dataTools.insertAdjacentElement('afterend',card);else settingsStack.appendChild(card);card.querySelector('#chooseBackupFolderBtn').onclick=chooseBackupDir;card.querySelector('#clearBackupFolderBtn').onclick=async()=>{await metaDelete(BACKUP_DIR_META).catch(()=>{});backupDirHandle=null;backupDirGranted=false;refreshBackupDir()};refreshBackupDir()}
+const previousCreate=URL.createObjectURL.bind(URL);URL.createObjectURL=function(obj){const url=previousCreate(obj);if(obj instanceof Blob&&obj.type==='application/octet-stream')lastBackupBlob=obj;return url};
+document.addEventListener('click',async e=>{if(!e.target.closest('#exportBtn,#downloadDeviceBackupBtn'))return;if(backupDirHandle)await ensureDirPermission()},true);
+const nativeAnchorClick=HTMLAnchorElement.prototype.click;HTMLAnchorElement.prototype.click=function(){if(this.download?.endsWith('.riferto')&&lastBackupBlob&&backupDirHandle){const blob=lastBackupBlob,name=this.download;queueMicrotask(async()=>{const ok=await writeBackupToFolder(blob,name);if(ok){const status=document.querySelector('#backupFolderStatus');if(status)status.textContent=`Backup copiato automaticamente: ${name}`}})}return nativeAnchorClick.call(this)};
+
+function improvePasswordManager(){const onboarding=document.querySelector('#backupPasswordOnboarding');if(onboarding&&!onboarding.querySelector('form')){const form=document.createElement('form');form.autocomplete='on';form.addEventListener('submit',e=>e.preventDefault());while(onboarding.firstChild)form.appendChild(onboarding.firstChild);onboarding.appendChild(form);const user=document.createElement('input');user.type='text';user.name='username';user.autocomplete='username';user.value='Riferto Backup';user.hidden=true;form.prepend(user);['backupSetupPassword','backupSetupConfirm'].forEach(id=>{const el=document.querySelector('#'+id);if(el){el.name=id;el.autocomplete='new-password'}})}const securityForm=document.querySelector('#backupSecurityForm');if(securityForm){let user=securityForm.querySelector('input[autocomplete="username"]');if(!user){user=document.createElement('input');user.type='text';user.name='username';user.autocomplete='username';user.value='Riferto Backup';user.hidden=true;securityForm.prepend(user)}['existingBackupPassword','existingBackupConfirm'].forEach(id=>{const el=document.querySelector('#'+id);if(el){el.name=id;el.autocomplete='new-password'}})}const pin=document.querySelector('#pinInput'),confirm=document.querySelector('#pinConfirmInput');[pin,confirm].forEach(el=>{if(!el)return;el.readOnly=false;el.type='password';el.inputMode='numeric';el.pattern='[0-9]*';el.removeAttribute('aria-hidden');el.tabIndex=0;el.autocomplete=el===pin&&document.querySelector('#pinConfirmField')?.classList.contains('hidden')?'current-password':'new-password'});document.querySelectorAll('.pin-display').forEach((btn,i)=>btn.addEventListener('click',()=>[pin,confirm][i]?.focus({preventScroll:true})));[pin,confirm].forEach(el=>el?.addEventListener('input',()=>{document.querySelectorAll('.pin-display').forEach((d,i)=>{const v=[pin,confirm][i]?.value||'';d.innerHTML=Array.from({length:6},(_,j)=>`<span class="pin-dot${j<v.length?' filled':''}"></span>`).join('')})}))}
+improvePasswordManager();
+
+const nativePrompt=window.prompt.bind(window);let queuedPassword=null;window.prompt=(message,def)=>{if(queuedPassword!==null){const v=queuedPassword;queuedPassword=null;return v}return nativePrompt(message,def)};
+const restoreDialog=document.createElement('dialog');restoreDialog.className='sheet-dialog password-autofill-dialog';restoreDialog.innerHTML=`<form class="sheet glass" id="rifertoRestorePasswordForm" autocomplete="on"><div class="sheet-handle"></div><div class="sheet-head"><div><p class="eyebrow">Ripristino backup</p><h2>Password backup</h2></div><button class="icon-btn" type="button" id="closeRestorePassword">✕</button></div><input type="text" name="username" autocomplete="username" value="Riferto Backup" hidden><p id="restorePasswordHint" class="muted"></p><label class="field"><span>Password</span><input id="restorePasswordValue" name="password" type="password" autocomplete="current-password" required></label><p class="caption">Il campo è compatibile con Passwords/AutoFill quando il browser lo supporta.</p><button class="primary-btn" type="submit">Continua</button></form>`;document.body.appendChild(restoreDialog);let pendingRestoreInput=null,bypassRestore=false;const restoreInput=()=>document.querySelector('#importRifertoInput');function installRestoreCapture(){const input=restoreInput();if(!input||input.dataset.autofillGuard)return;input.dataset.autofillGuard='1';input.addEventListener('change',e=>{if(bypassRestore)return;const file=input.files?.[0];if(!file)return;e.preventDefault();e.stopImmediatePropagation();pendingRestoreInput=input;document.querySelector('#restorePasswordHint').textContent='Inserisci la password con cui è stato cifrato il file .riferto.';document.querySelector('#restorePasswordValue').value='';restoreDialog.showModal();setTimeout(()=>document.querySelector('#restorePasswordValue')?.focus(),80)},true)}installRestoreCapture();setTimeout(installRestoreCapture,400);document.querySelector('#closeRestorePassword').onclick=()=>restoreDialog.close();document.querySelector('#rifertoRestorePasswordForm').addEventListener('submit',e=>{e.preventDefault();const password=document.querySelector('#restorePasswordValue').value;if(!password||!pendingRestoreInput)return;queuedPassword=password;bypassRestore=true;restoreDialog.close();pendingRestoreInput.dispatchEvent(new Event('change',{bubbles:true}));bypassRestore=false;pendingRestoreInput=null});
