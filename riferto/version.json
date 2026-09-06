@@ -1,5 +1,5 @@
 {
-  "version": "0.13.4",
-  "releasedAt": "2026-09-05T13:24:00+02:00",
-  "notes": "Corretto il deployment GitHub Pages per pubblicare direttamente la PWA; aggiunta la gestione dell'URL sorgente aggiornamenti nelle Impostazioni; nuova icona PWA senza orologio con referto, provetta e scudo/lucchetto; nome PWA fissato a Riferto; service worker reso indipendente dal percorso hard-coded."
+  "version": "0.13.5",
+  "releasedAt": "2026-09-06T10:04:00+02:00",
+  "notes": "Layout desktop/landscape automatico su macOS e Windows con override manuale; dark mode Auto/Chiaro/Scuro; campi PIN e password backup compatibili con Passwords/AutoFill; ripristino .riferto con dialog password; cartella backup predefinita su browser desktop compatibili tramite File System Access API; fallback esplicito su iOS; corretto il layout di Origine aggiornamenti."
 }
