@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.13.5 — 2026-09-06
+- Su macOS e Windows Riferto usa automaticamente un layout desktop/landscape quando rileva un dispositivo con puntatore e schermo ampio.
+- Aggiunta in Impostazioni la scelta manuale **Automatico / Portrait / Landscape-desktop**.
+- Aggiunta la modalità **Chiaro / Scuro / Automatico**, collegata anche a `prefers-color-scheme`.
+- Migliorata l'integrazione con Passwords/AutoFill: PIN e password backup usano campi password reali e attributi `autocomplete` compatibili.
+- Il ripristino `.riferto` usa ora un dialog con campo password invece del prompt nativo, così i password manager possono riconoscerlo.
+- Aggiunta la scelta di una cartella backup predefinita sui browser desktop che supportano File System Access API; l'handle viene conservato localmente e i nuovi backup vengono copiati anche lì.
+- Su iPhone/iPad viene mostrato esplicitamente il limite di Safari: una PWA non può mantenere in modo affidabile un permesso persistente a una cartella iCloud Drive, quindi resta disponibile il normale salvataggio tramite File/Condividi.
+- Sistemato il rientro e l'allineamento della sezione **Origine aggiornamenti**.
+
 ## v0.13.4 — 2026-09-05
 - Corretto il deployment GitHub Pages: viene pubblicata direttamente la PWA invece della root Jekyll/README.
 - Aggiunta in **Impostazioni → Aggiornamento** la gestione dell'URL sorgente usato per controllare nuove versioni.
