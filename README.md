@@ -11,7 +11,7 @@
 
   <br>
 
-  ![Version](https://img.shields.io/badge/version-0.13.4-1764e8?style=flat-square)
+  ![Version](https://img.shields.io/badge/version-0.13.5-1764e8?style=flat-square)
   ![PWA](https://img.shields.io/badge/PWA-installable-1764e8?style=flat-square)
   ![Storage](https://img.shields.io/badge/storage-local--first-23735b?style=flat-square)
   ![Encryption](https://img.shields.io/badge/vault-AES--GCM-23735b?style=flat-square)
@@ -36,6 +36,8 @@ It does not require an application server to store your reports. GitHub Pages ho
 | 📄 | Multiple original PDF attachments per report |
 | 💾 | Encrypted `.riferto` backup format with integrity verification |
 | 📱 | Installable PWA with responsive portrait and landscape layouts |
+| 🌙 | Light, dark and automatic appearance modes |
+| 🖥️ | Automatic desktop/landscape layout on Mac and Windows |
 
 ## Privacy and security
 
@@ -57,11 +59,11 @@ pdf/
 
 The package is integrity-checked with SHA-256 and ZIP CRC checks, then encrypted with AES-GCM before export. Restore validation runs before the local database is replaced; a corrupted or incomplete package is rejected instead of being silently imported partially.
 
-Keep exported backups outside the app, for example in Files, iCloud Drive or another storage location you control. The backup password is required for recovery. Legacy JSON backups remain importable for compatibility.
+On compatible desktop browsers, Riferto can remember an authorized backup directory and copy new backups there. On iPhone/iPad, Safari does not provide equivalent persistent directory access, so saving continues through Files / the system share flow.
 
 ## Current version
 
-**v0.13.4**
+**v0.13.5**
 
 See the [project changelog](./CHANGELOG.md) or the [web changelog](https://making-lemonade.github.io/riferto/changelog.html).
 
