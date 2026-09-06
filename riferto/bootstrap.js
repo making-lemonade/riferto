@@ -1,4 +1,4 @@
-const APP_VERSION='0.13.4';
+const APP_VERSION='0.13.5';
 const DB_NAME='riferto-db';
 const DB_VERSION=1;
 const UPDATE_SOURCE_KEY='riferto-update-source-url';
