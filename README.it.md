@@ -11,7 +11,7 @@
 
   <br>
 
-  ![Versione](https://img.shields.io/badge/versione-0.13.4-1764e8?style=flat-square)
+  ![Versione](https://img.shields.io/badge/versione-0.13.5-1764e8?style=flat-square)
   ![PWA](https://img.shields.io/badge/PWA-installabile-1764e8?style=flat-square)
   ![Storage](https://img.shields.io/badge/storage-local--first-23735b?style=flat-square)
   ![Cifratura](https://img.shields.io/badge/vault-AES--GCM-23735b?style=flat-square)
@@ -36,6 +36,8 @@ Non richiede un server applicativo per conservare i referti. GitHub Pages ospita
 | 📄 | Più PDF originali allegati allo stesso referto |
 | 💾 | Backup `.riferto` cifrato con verifica di integrità |
 | 📱 | PWA installabile con layout responsive portrait e landscape |
+| 🌙 | Tema chiaro, scuro o automatico |
+| 🖥️ | Layout desktop/landscape automatico su Mac e Windows |
 
 ## Privacy e sicurezza
 
@@ -57,11 +59,11 @@ pdf/
 
 Il pacchetto viene verificato con SHA-256 e CRC dello ZIP e poi cifrato con AES-GCM prima dell'esportazione. Durante il ripristino Riferto verifica tutto prima di sostituire il database locale; un pacchetto corrotto o incompleto viene rifiutato invece di essere importato parzialmente in silenzio.
 
-Conserva i backup fuori dall'app, per esempio in File, iCloud Drive o un'altra destinazione sotto il tuo controllo. La password del backup è necessaria per il ripristino. I vecchi backup JSON restano importabili per compatibilità.
+Su browser desktop compatibili Riferto può ricordare una cartella backup autorizzata e copiare lì i nuovi backup. Su iPhone/iPad Safari non offre un accesso persistente equivalente a una cartella iCloud Drive, quindi il salvataggio continua tramite File/Condividi.
 
 ## Versione corrente
 
-**v0.13.4**
+**v0.13.5**
 
 Consulta il [changelog del progetto](./CHANGELOG.md) oppure il [changelog web](https://making-lemonade.github.io/riferto/changelog.html).
 
