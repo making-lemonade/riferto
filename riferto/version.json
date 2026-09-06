@@ -1,5 +1,5 @@
 {
-  "version": "0.13.5",
-  "releasedAt": "2026-09-06T10:04:00+02:00",
-  "notes": "Layout desktop/landscape automatico su macOS e Windows con override manuale; dark mode Auto/Chiaro/Scuro; campi PIN e password backup compatibili con Passwords/AutoFill; ripristino .riferto con dialog password; cartella backup predefinita su browser desktop compatibili tramite File System Access API; fallback esplicito su iOS; corretto il layout di Origine aggiornamenti."
+  "version": "0.13.6",
+  "releasedAt": "2026-09-06T11:14:00+02:00",
+  "notes": "Corretto il rendering della vista Trend in dark mode: eliminati sfondi chiari nella matrice, migliorato il contrasto di intestazioni, nomi esami, valori, selettore vista e preferiti; affinato il layout desktop/landscape della sezione Trend."
 }
