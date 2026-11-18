@@ -1,5 +1,5 @@
 {
-  "version": "0.13.6",
-  "releasedAt": "2026-09-06T11:14:00+02:00",
-  "notes": "Corretto il rendering della vista Trend in dark mode: eliminati sfondi chiari nella matrice, migliorato il contrasto di intestazioni, nomi esami, valori, selettore vista e preferiti; affinato il layout desktop/landscape della sezione Trend."
+  "version": "0.13.7",
+  "releasedAt": "2026-11-18T08:20:00+01:00",
+  "notes": "Rimosso il collegamento diretto PayPal; Buy Me a Coffee è ora disponibile nella schermata iniziale, nella home e nelle Impostazioni, senza widget esterni."
 }

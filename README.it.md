@@ -11,7 +11,7 @@
 
   <br>
 
-  ![Versione](https://img.shields.io/badge/versione-0.13.5-1764e8?style=flat-square)
+  ![Versione](https://img.shields.io/badge/versione-0.13.7-1764e8?style=flat-square)
   ![PWA](https://img.shields.io/badge/PWA-installabile-1764e8?style=flat-square)
   ![Storage](https://img.shields.io/badge/storage-local--first-23735b?style=flat-square)
   ![Cifratura](https://img.shields.io/badge/vault-AES--GCM-23735b?style=flat-square)
@@ -61,9 +61,13 @@ Il pacchetto viene verificato con SHA-256 e CRC dello ZIP e poi cifrato con AES-
 
 Su browser desktop compatibili Riferto può ricordare una cartella backup autorizzata e copiare lì i nuovi backup. Su iPhone/iPad Safari non offre un accesso persistente equivalente a una cartella iCloud Drive, quindi il salvataggio continua tramite File/Condividi.
 
+## Supporto
+
+Se Riferto ti è utile, puoi sostenere lo sviluppo tramite [Buy Me a Coffee](https://www.buymeacoffee.com/dvaidae). L'app contiene soltanto un collegamento esterno e non incorpora widget di pagamento.
+
 ## Versione corrente
 
-**v0.13.5**
+**v0.13.7**
 
 Consulta il [changelog del progetto](./CHANGELOG.md) oppure il [changelog web](https://making-lemonade.github.io/riferto/changelog.html).
 

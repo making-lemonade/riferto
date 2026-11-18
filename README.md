@@ -11,7 +11,7 @@
 
   <br>
 
-  ![Version](https://img.shields.io/badge/version-0.13.5-1764e8?style=flat-square)
+  ![Version](https://img.shields.io/badge/version-0.13.7-1764e8?style=flat-square)
   ![PWA](https://img.shields.io/badge/PWA-installable-1764e8?style=flat-square)
   ![Storage](https://img.shields.io/badge/storage-local--first-23735b?style=flat-square)
   ![Encryption](https://img.shields.io/badge/vault-AES--GCM-23735b?style=flat-square)
@@ -61,9 +61,13 @@ The package is integrity-checked with SHA-256 and ZIP CRC checks, then encrypted
 
 On compatible desktop browsers, Riferto can remember an authorized backup directory and copy new backups there. On iPhone/iPad, Safari does not provide equivalent persistent directory access, so saving continues through Files / the system share flow.
 
+## Support
+
+If you find Riferto useful, you can support its development through [Buy Me a Coffee](https://www.buymeacoffee.com/dvaidae). The app contains only an external link; it does not embed a payment widget.
+
 ## Current version
 
-**v0.13.5**
+**v0.13.7**
 
 See the [project changelog](./CHANGELOG.md) or the [web changelog](https://making-lemonade.github.io/riferto/changelog.html).
 

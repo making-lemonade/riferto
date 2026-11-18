@@ -6,7 +6,7 @@ Riferto è una PWA local-first per archiviare referti sanitari, PDF originali e 
 
 ## Versione
 
-0.13.3
+0.13.7
 
 ## Privacy e sicurezza
 
@@ -43,7 +43,7 @@ Il catalogo incluso è un sottoinsieme iniziale di esami comuni. LOINC® è un m
 
 ## Supporto
 
-Donazione volontaria PayPal: `https://www.paypal.com/qrcodes/p2pqrc/GRN7DK9PJ69BA`
+Supporto volontario tramite [Buy Me a Coffee](https://www.buymeacoffee.com/dvaidae). Nessuno script di pagamento viene caricato dentro la PWA.
 
 ## Copyright
 

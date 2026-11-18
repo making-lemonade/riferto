@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.13.7 — 2026-11-18
+- Rimossi i vecchi link di donazione diretta: Buy Me a Coffee è ora l'unico metodo di supporto linkato.
+- Inserito Buy Me a Coffee nella testata della home, nella schermata di installazione e nelle Impostazioni.
+- Nessuno script di pagamento viene caricato nella PWA.
+
 ## v0.13.5 — 2026-09-06
 - Su macOS e Windows Riferto usa automaticamente un layout desktop/landscape quando rileva un dispositivo con puntatore e schermo ampio.
 - Aggiunta in Impostazioni la scelta manuale **Automatico / Portrait / Landscape-desktop**.
