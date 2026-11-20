@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.13.9 — 2026-11-21
+- Corretta la schermata PIN in dark mode: contrasto, sfondo, tastiera numerica e casella di ingresso.
+- La gestione del PIN e la cifratura dei dati non sono state modificate.
+
 ## v0.13.8 — 2026-11-21
 - Aggiunto il logo Buy Me a Coffee ai pulsanti di supporto in home, installazione e Impostazioni.
 - Icona vettoriale ospitata localmente, senza dipendenze da script esterni.

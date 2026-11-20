@@ -1,5 +1,5 @@
 {
-  "version": "0.13.8",
-  "releasedAt": "2026-11-21T00:13:00+01:00",
-  "notes": "Aggiunto il logo ufficiale Buy Me a Coffee ai collegamenti nella home, nella pagina di installazione e nelle impostazioni; asset ospitato localmente."
+  "version": "0.13.9",
+  "releasedAt": "2026-11-21T00:25:00+01:00",
+  "notes": "Corretti colori, contrasto e sfondo della schermata di sblocco PIN in modalità scura, senza modifiche a PIN o dati."
 }

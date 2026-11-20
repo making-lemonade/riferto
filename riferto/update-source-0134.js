@@ -15,6 +15,73 @@ style.textContent=`
 .preference-card .settings-row{display:grid;gap:7px;margin-top:14px}.preference-card .settings-row:first-of-type{margin-top:10px}.preference-card select{width:100%}.backup-folder-status{margin:8px 0 0}.backup-folder-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
 html[data-riferto-layout="landscape"] .app-shell{width:min(100%,1180px)!important}html[data-riferto-layout="landscape"] .settings-stack{grid-template-columns:repeat(2,minmax(0,1fr))!important}html[data-riferto-layout="landscape"] .settings-stack>.data-tools-card,html[data-riferto-layout="landscape"] .settings-stack>.backup-warning-card,html[data-riferto-layout="landscape"] .settings-stack>.changelog-card,html[data-riferto-layout="landscape"] .settings-stack>.update-available-card{grid-column:1/-1}html[data-riferto-layout="landscape"] .hero{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:end;gap:24px}html[data-riferto-layout="landscape"] .hero .primary-btn{width:auto!important;min-width:170px;margin:0!important}html[data-riferto-layout="portrait"] .app-shell{width:min(100%,620px)!important}html[data-riferto-layout="portrait"] .settings-stack{grid-template-columns:1fr!important}
 html[data-riferto-theme="dark"]{color-scheme:dark;--bg:#0d1420;--text:#eef4ff;--muted:#9eabc0;--line:rgba(255,255,255,.10);--surface:rgba(26,36,52,.84);--surface-strong:rgba(31,43,61,.96);--hairline:rgba(255,255,255,.10);--shadow-soft:0 14px 38px rgba(0,0,0,.28)}html[data-riferto-theme="dark"] body{background:linear-gradient(180deg,#0c1420 0%,#111b2a 50%,#0d1521 100%)!important;color:var(--text)!important}html[data-riferto-theme="dark"] .glass,html[data-riferto-theme="dark"] .glass-subtle,html[data-riferto-theme="dark"] .card,html[data-riferto-theme="dark"] .report-card,html[data-riferto-theme="dark"] .settings-card,html[data-riferto-theme="dark"] .empty-state,html[data-riferto-theme="dark"] .topbar,html[data-riferto-theme="dark"] .hero{background:linear-gradient(145deg,rgba(31,43,61,.94),rgba(19,29,44,.88))!important;border-color:rgba(255,255,255,.10)!important;color:var(--text)!important}html[data-riferto-theme="dark"] .secondary-btn,html[data-riferto-theme="dark"] .glass-control,html[data-riferto-theme="dark"] .field input,html[data-riferto-theme="dark"] .field textarea,html[data-riferto-theme="dark"] select{background:rgba(15,24,37,.78)!important;color:var(--text)!important;border-color:rgba(255,255,255,.12)!important}html[data-riferto-theme="dark"] .bottom-nav{background:rgba(18,28,43,.96)!important;border-color:rgba(255,255,255,.10)!important}html[data-riferto-theme="dark"] .bottom-nav-btn.active{background:rgba(50,67,91,.88)!important;color:#fff!important}html[data-riferto-theme="dark"] .muted,html[data-riferto-theme="dark"] .caption,html[data-riferto-theme="dark"] .eyebrow,html[data-riferto-theme="dark"] .field>span{color:#aebbd0!important}html[data-riferto-theme="dark"] .sheet-dialog::backdrop{background:rgba(0,0,0,.62)!important}
+/* Dark-mode PIN and onboarding surfaces. Keep keypad aligned with the night palette. */
+html[data-riferto-theme="dark"] .lock-screen,
+html[data-riferto-theme="dark"] .install-screen{
+  background:radial-gradient(ellipse at 18% 0%,#253a58 0%,transparent 48%),linear-gradient(160deg,#0b1322,#101c30 52%,#0a1525)!important;
+  color:#eff5ff!important;
+}
+html[data-riferto-theme="dark"] .lock-card,
+html[data-riferto-theme="dark"] .install-card{
+  background:linear-gradient(155deg,#202f45,#152238)!important;
+  border:1px solid rgba(156,188,225,.22)!important;
+  color:#f4f8ff!important;
+  box-shadow:0 22px 62px rgba(0,5,15,.36),inset 0 1px rgba(255,255,255,.05)!important;
+}
+html[data-riferto-theme="dark"] .lock-card h1,
+html[data-riferto-theme="dark"] .lock-card .tagline,
+html[data-riferto-theme="dark"] .install-card h1,
+html[data-riferto-theme="dark"] .install-card .tagline{color:#f5f8ff!important}
+html[data-riferto-theme="dark"] .lock-card .version-badge,
+html[data-riferto-theme="dark"] .install-card .version-badge{
+  background:rgba(64,137,249,.19)!important;
+  color:#b8d8ff!important;
+  border:1px solid rgba(108,165,255,.17);
+}
+html[data-riferto-theme="dark"] .lock-card .eyebrow,
+html[data-riferto-theme="dark"] .lock-card .muted,
+html[data-riferto-theme="dark"] .lock-card .caption,
+html[data-riferto-theme="dark"] .lock-card .field>span,
+html[data-riferto-theme="dark"] .install-card .muted,
+html[data-riferto-theme="dark"] .install-card .caption{color:#b9c9df!important}
+html[data-riferto-theme="dark"] .lock-card .pin-input,
+html[data-riferto-theme="dark"] .lock-card .pin-display{
+  background:#111e32!important;
+  color:#f4f8ff!important;
+  border:1px solid rgba(123,163,213,.35)!important;
+  box-shadow:inset 0 2px 8px rgba(0,7,17,.18)!important;
+  caret-color:#8fbdff;
+}
+html[data-riferto-theme="dark"] .lock-card .pin-input:focus,
+html[data-riferto-theme="dark"] .lock-card .pin-display.active{
+  border-color:#74b0ff!important;
+  box-shadow:0 0 0 3px rgba(75,142,241,.17)!important;
+}
+html[data-riferto-theme="dark"] .lock-card .pin-dot{background:#3c5374!important}
+html[data-riferto-theme="dark"] .lock-card .pin-dot.filled{background:#79b1ff!important}
+html[data-riferto-theme="dark"] .lock-card .pin-key{
+  background:linear-gradient(180deg,#344965,#293c58)!important;
+  color:#f5f8ff!important;
+  border:1px solid rgba(162,193,232,.23)!important;
+  border-radius:17px;
+  box-shadow:0 5px 12px rgba(0,7,17,.18),inset 0 1px rgba(255,255,255,.05)!important;
+}
+html[data-riferto-theme="dark"] .lock-card .pin-key:active{
+  transform:scale(.97);
+  background:#446287!important;
+  border-color:rgba(177,207,242,.37)!important;
+}
+html[data-riferto-theme="dark"] .lock-card .pin-key:focus-visible{outline:2px solid #85b8ff!important;outline-offset:2px}
+html[data-riferto-theme="dark"] .lock-card .lock-separator{color:#98aac2!important}
+html[data-riferto-theme="dark"] .lock-card .lock-separator:before,
+html[data-riferto-theme="dark"] .lock-card .lock-separator:after{background:rgba(170,196,226,.20)!important}
+html[data-riferto-theme="dark"] .lock-card .primary-btn{
+  color:#fff!important;
+  background:linear-gradient(180deg,#3084f5,#1965d4)!important;
+  box-shadow:0 9px 25px rgba(0,85,220,.24)!important;
+}
+html[data-riferto-theme="dark"] .install-card .install-help{background:rgba(46,67,98,.55)!important;color:#d4e0f0!important}
+
 .password-autofill-dialog{z-index:40000}.password-autofill-dialog .sheet{max-width:480px}.password-autofill-dialog .field{margin:12px 0}.password-autofill-dialog .primary-btn{width:100%}
 @media(max-width:620px){.update-source-actions,.backup-folder-actions{grid-template-columns:1fr!important}.update-source-actions #resetUpdateSourceBtn{grid-column:auto}}
 `;
@@ -22,7 +89,7 @@ document.head.appendChild(style);
 
 function isDesktop(){return !/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)&&(matchMedia('(pointer:fine)').matches||innerWidth>=760)}
 function applyLayout(){const mode=localStorage.getItem(LAYOUT_KEY)||'auto';const resolved=mode==='auto'?(isDesktop()?'landscape':(innerWidth>innerHeight?'landscape':'portrait')):mode;document.documentElement.dataset.rifertoLayout=resolved}
-function applyTheme(){const mode=localStorage.getItem(THEME_KEY)||'auto';const resolved=mode==='auto'?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):mode;document.documentElement.dataset.rifertoTheme=resolved}
+function applyTheme(){const mode=localStorage.getItem(THEME_KEY)||'auto';const resolved=mode==='auto'?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):mode;document.documentElement.dataset.rifertoTheme=resolved;const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.setAttribute('content',resolved==='dark'?'#0b1322':'#eef4ff')}
 applyLayout();applyTheme();addEventListener('resize',()=>{if((localStorage.getItem(LAYOUT_KEY)||'auto')==='auto')applyLayout()});matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>{if((localStorage.getItem(THEME_KEY)||'auto')==='auto')applyTheme()});
 
 const forceBtn=document.querySelector('#forceUpdateBtn');
