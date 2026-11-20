@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.13.11 — 2026-11-21
+- Su iOS la PWA applica il colore del tema scelto già nel <head>, prima della schermata PIN.
+- Rimosso l'obsoleto parametro apple-mobile-web-app-status-bar-style=default per lasciare a iOS la gestione automatica del colore della barra.
+- Nessuna modifica al database o alla logica di sicurezza.
+
 ## v0.13.10 — 2026-11-21
 - La scheda 'Aggiornamento disponibile' ora rimane espansa e visibile nelle Impostazioni.
 - Numero della versione installata, versione disponibile e pulsante 'Aggiorna a v...' accessibili direttamente senza aprire un menu.

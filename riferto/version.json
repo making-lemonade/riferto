@@ -1,5 +1,5 @@
 {
-  "version": "0.13.10",
-  "releasedAt": "2026-11-21T00:41:00+01:00",
-  "notes": "La scheda Aggiornamento disponibile mostra subito il numero della nuova versione e il pulsante Aggiorna, senza essere nascosta in un menu espandibile."
+  "version": "0.13.11",
+  "releasedAt": "2026-11-21T00:50:00+01:00",
+  "notes": "Barra di stato iOS: rimosso lo stile predefinito obsoleto e applicato il colore del tema fin dall'avvio, prima della schermata PIN."
 }

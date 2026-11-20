@@ -11,7 +11,7 @@
 
   <br>
 
-  ![Versione](https://img.shields.io/badge/versione-0.13.10-1764e8?style=flat-square)
+  ![Versione](https://img.shields.io/badge/versione-0.13.11-1764e8?style=flat-square)
   ![PWA](https://img.shields.io/badge/PWA-installabile-1764e8?style=flat-square)
   ![Storage](https://img.shields.io/badge/storage-local--first-23735b?style=flat-square)
   ![Cifratura](https://img.shields.io/badge/vault-AES--GCM-23735b?style=flat-square)
@@ -67,7 +67,7 @@ Se Riferto ti è utile, puoi sostenere lo sviluppo tramite [Buy Me a Coffee](htt
 
 ## Versione corrente
 
-**v0.13.10**
+**v0.13.11**
 
 Consulta il [changelog del progetto](./CHANGELOG.md) oppure il [changelog web](https://making-lemonade.github.io/riferto/changelog.html).
 
