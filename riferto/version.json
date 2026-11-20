@@ -1,5 +1,5 @@
 {
-  "version": "0.13.11",
-  "releasedAt": "2026-11-21T00:50:00+01:00",
-  "notes": "Barra di stato iOS: rimosso lo stile predefinito obsoleto e applicato il colore del tema fin dall'avvio, prima della schermata PIN."
+  "version": "0.13.12",
+  "releasedAt": "2026-11-21T01:05:00+01:00",
+  "notes": "Aggiunto il pulsante Condividi nella barra superiore e nella schermata di installazione: menu nativo iOS/Android o copia del link; condivide solo l'URL pubblico e non i referti."
 }

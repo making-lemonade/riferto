@@ -7,3 +7,14 @@
 /* Local brand icon for Buy Me a Coffee; no embedded payment scripts. */
 .riferto-coffee-icon{display:inline-block;width:19px;height:19px;object-fit:contain;vertical-align:middle;flex-shrink:0}
 .support-link:has(.riferto-coffee-icon){display:inline-flex;align-items:center;justify-content:center;gap:7px}
+
+/* Share Riferto's public app URL only. Topbar remains usable on compact iPhones. */
+.riferto-top-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;min-width:0;margin-left:auto}
+.riferto-top-actions .riferto-coffee-top{margin-left:0}
+.riferto-share-btn{width:42px;height:42px;min-width:42px;display:inline-flex;align-items:center;justify-content:center;border-radius:14px;border:1px solid rgba(96,118,151,.20);background:rgba(255,255,255,.72);color:#1f4d89;box-shadow:0 3px 12px rgba(39,71,117,.07);padding:0;flex:none}
+.riferto-share-btn:active{transform:scale(.97)}.riferto-share-btn:focus-visible,.riferto-share-install:focus-visible{outline:3px solid #2d86ff;outline-offset:3px}
+.riferto-share-install{width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;margin-top:10px;padding:12px 16px;border-radius:15px}
+.riferto-share-install svg{flex:none}.riferto-share-install span{font-weight:750}
+html[data-riferto-theme="dark"] .riferto-share-btn{background:rgba(48,67,95,.95);color:#eaf3ff;border-color:rgba(154,188,230,.3)}
+html[data-riferto-theme="dark"] .riferto-share-install{color:#f0f5ff}
+@media(max-width:420px){.topbar{flex-wrap:wrap;align-items:center;gap:9px}.topbar .brand-block{flex:1 1 110px}.riferto-top-actions{margin-left:auto;gap:7px}.riferto-share-btn{width:39px;height:39px;min-width:39px}.riferto-top-actions .riferto-coffee-top{font-size:.68rem;padding:9px 10px}}

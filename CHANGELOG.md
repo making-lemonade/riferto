@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.13.12 — 2026-11-21
+- Aggiunto il pulsante Condividi nella home e nella schermata d'installazione.
+- Condivisione tramite Web Share API dove disponibile; altrimenti copia del solo link pubblico.
+- Nessun dato sanitario o informazione dell'archivio entra nella condivisione.
+- Nessuna modifica a PIN, cifratura o database.
+
 ## v0.13.11 — 2026-11-21
 - Su iOS la PWA applica il colore del tema scelto già nel <head>, prima della schermata PIN.
 - Rimosso l'obsoleto parametro apple-mobile-web-app-status-bar-style=default per lasciare a iOS la gestione automatica del colore della barra.

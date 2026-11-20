@@ -6,7 +6,7 @@ Riferto è una PWA local-first per archiviare referti sanitari, PDF originali e 
 
 ## Versione
 
-0.13.11
+0.13.12
 
 ## Privacy e sicurezza
 
@@ -50,3 +50,7 @@ Supporto volontario tramite [Buy Me a Coffee](https://www.buymeacoffee.com/dvaid
 © 2026 Riferto. Tutti i diritti riservati.
 
 È vietato il riutilizzo, la redistribuzione, la rivendita, il white-label e qualsiasi uso commerciale del software o di parti sostanziali del codice senza preventiva autorizzazione scritta del titolare dei diritti.
+
+## Condivisione
+
+Il pulsante **Condividi** invia esclusivamente il link pubblico dell'app (`https://making-lemonade.github.io/riferto/`) tramite il menu nativo, oppure copia il link. Non condivide referti o dati sanitari.
