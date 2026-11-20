@@ -28,6 +28,21 @@ style.textContent=`
 .settings-accordion-body h3{margin-top:14px}
 .settings-accordion .settings-disclosure{margin-top:10px}
 .settings-accordion.update-available-card.hidden{display:none!important}
+.settings-stack>.update-available-card:not(.hidden){
+  display:grid;gap:12px;padding:20px;border-radius:22px;
+  border:1px solid rgba(42,124,240,.50)!important;
+  box-shadow:0 12px 32px rgba(16,80,195,.13)!important;
+}
+.settings-stack>.update-available-card:not(.hidden) .update-version-line{
+  display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;
+}
+.settings-stack>.update-available-card:not(.hidden) #settingsUpdateNowBtn{
+  display:block;width:100%;min-height:48px;font-weight:800;
+}
+html[data-riferto-theme="dark"] .settings-stack>.update-available-card:not(.hidden){
+  background:linear-gradient(140deg,#223b5f,#192b46)!important;
+  border-color:rgba(99,163,255,.42)!important;
+}
 @media(max-width:520px){.settings-accordion>summary{grid-template-columns:38px minmax(0,1fr) 18px;padding:13px 14px;min-height:64px}.settings-flat-icon{width:38px;height:38px;border-radius:12px}.settings-flat-icon svg{width:20px;height:20px}.settings-accordion-body{padding:0 14px 14px}}
 `;
 document.head.appendChild(style);
@@ -57,6 +72,9 @@ function bindAccordion(details){
   });
 }
 function compactCard(card){
+  // An available update is actionable information, not a collapsed settings option.
+  // Keep the existing update card in the DOM, with its versions and primary action visible.
+  if(card.id==='settingsUpdateAvailable')return;
   if(card.dataset.settingsAccordion==='1')return;
   card.dataset.settingsAccordion='1';
   const meta=cardMeta(card);
@@ -69,6 +87,13 @@ function compactCard(card){
   const body=document.createElement('div');body.className='settings-accordion-body';while(card.firstChild)body.appendChild(card.firstChild);
   details.append(summary,body);card.replaceWith(details);bindAccordion(details);
 }
-function reorder(){const support=settingsStack?.querySelector(':scope > .support-card');if(support&&settingsStack.firstElementChild!==support)settingsStack.prepend(support)}
+function reorder(){
+  if(!settingsStack)return;
+  const support=settingsStack.querySelector(':scope > .support-card');
+  if(support&&settingsStack.firstElementChild!==support)settingsStack.prepend(support);
+  // Put the update card immediately below Support so it cannot be lost in the list.
+  const update=settingsStack.querySelector(':scope > #settingsUpdateAvailable');
+  if(update&&support&&update.previousElementSibling!==support)support.after(update);
+}
 function compactAll(){[...(settingsStack?.querySelectorAll(':scope > article.settings-card')||[])].forEach(compactCard);[...(settingsStack?.querySelectorAll(':scope > details.settings-accordion')||[])].forEach(bindAccordion);reorder()}
 if(settingsStack){compactAll();new MutationObserver(()=>{compactAll();reorder()}).observe(settingsStack,{childList:true})}

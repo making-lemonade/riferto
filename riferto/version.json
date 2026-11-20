@@ -1,5 +1,5 @@
 {
-  "version": "0.13.9",
-  "releasedAt": "2026-11-21T00:25:00+01:00",
-  "notes": "Corretti colori, contrasto e sfondo della schermata di sblocco PIN in modalità scura, senza modifiche a PIN o dati."
+  "version": "0.13.10",
+  "releasedAt": "2026-11-21T00:41:00+01:00",
+  "notes": "La scheda Aggiornamento disponibile mostra subito il numero della nuova versione e il pulsante Aggiorna, senza essere nascosta in un menu espandibile."
 }

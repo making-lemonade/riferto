@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.13.10 — 2026-11-21
+- La scheda 'Aggiornamento disponibile' ora rimane espansa e visibile nelle Impostazioni.
+- Numero della versione installata, versione disponibile e pulsante 'Aggiorna a v...' accessibili direttamente senza aprire un menu.
+- Il resto delle Impostazioni rimane organizzato in schede espandibili.
+- Nessuna modifica ai dati sanitari, al PIN o alla cifratura.
+
 ## v0.13.9 — 2026-11-21
 - Corretta la schermata PIN in dark mode: contrasto, sfondo, tastiera numerica e casella di ingresso.
 - La gestione del PIN e la cifratura dei dati non sono state modificate.
