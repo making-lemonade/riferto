@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.13.8 — 2026-11-21
+- Aggiunto il logo Buy Me a Coffee ai pulsanti di supporto in home, installazione e Impostazioni.
+- Icona vettoriale ospitata localmente, senza dipendenze da script esterni.
+
 ## v0.13.7 — 2026-11-18
 - Rimossi i vecchi link di donazione diretta: Buy Me a Coffee è ora l'unico metodo di supporto linkato.
 - Inserito Buy Me a Coffee nella testata della home, nella schermata di installazione e nelle Impostazioni.

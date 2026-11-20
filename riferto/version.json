@@ -1,5 +1,5 @@
 {
-  "version": "0.13.7",
-  "releasedAt": "2026-11-18T08:20:00+01:00",
-  "notes": "Rimosso il collegamento diretto PayPal; Buy Me a Coffee è ora disponibile nella schermata iniziale, nella home e nelle Impostazioni, senza widget esterni."
+  "version": "0.13.8",
+  "releasedAt": "2026-11-21T00:13:00+01:00",
+  "notes": "Aggiunto il logo ufficiale Buy Me a Coffee ai collegamenti nella home, nella pagina di installazione e nelle impostazioni; asset ospitato localmente."
 }

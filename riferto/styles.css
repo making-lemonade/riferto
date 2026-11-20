@@ -3,3 +3,7 @@
 .riferto-coffee{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:999px;background:#ffdd00;border:1px solid #e5c700;color:#221a00!important;text-decoration:none;font-size:.75rem;font-weight:800;line-height:1.15;padding:10px 13px;white-space:nowrap;box-shadow:0 3px 11px rgba(95,71,0,.09);flex-shrink:0}
 .riferto-coffee:hover{background:#ffe761}.riferto-coffee:focus-visible{outline:3px solid #1f73e8;outline-offset:3px}.riferto-coffee-install{float:right;margin:0 0 10px 12px}.riferto-coffee-top{margin-left:auto}
 @media(max-width:400px){.riferto-coffee-top{font-size:.68rem;padding:9px 10px}.topbar .brand-block{min-width:0}.topbar .brand-block h1{font-size:1.05rem}}
+
+/* Local brand icon for Buy Me a Coffee; no embedded payment scripts. */
+.riferto-coffee-icon{display:inline-block;width:19px;height:19px;object-fit:contain;vertical-align:middle;flex-shrink:0}
+.support-link:has(.riferto-coffee-icon){display:inline-flex;align-items:center;justify-content:center;gap:7px}
