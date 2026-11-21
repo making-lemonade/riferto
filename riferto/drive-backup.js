@@ -14,7 +14,7 @@
   const card=document.createElement('article');
   card.className='glass settings-card riferto-gdrive-card';
   card.innerHTML=[
-    '<p class="eyebrow">Backup esterno</p><h3>Google Drive — backup cifrati</h3>',
+    '<p class="eyebrow">Backup esterno</p><h3>Google Drive — backup cifrati (beta)</h3>',
     '<p class="muted">Google Drive riceve soltanto file .riferto cifrati, in una cartella visibile chiamata “Riferto Backups”. Nessun PIN o password viene inviato.</p>',
     '<p class="caption">Funziona con Riferto aperto e accesso Google attivo. Se la sessione scade, il backup rimane in attesa di una nuova connessione. Non funziona con la PWA chiusa.</p>',
     '<label class="field"><span>Client ID OAuth Google (app Web)</span><input id="rifertoDriveClientId" type="text" spellcheck="false" autocapitalize="none" autocomplete="off" placeholder="...apps.googleusercontent.com"></label>',

@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.13.15 — 2026-11-21
+- L'integrazione Google Drive è etichettata beta; se fallisce l'inizializzazione non impedisce l'apertura dell'archivio.
+- Rimossi i riferimenti residui a PayPal nell'interfaccia generata, mantenendo solo Buy Me a Coffee.
+- Distinto il backup locale manuale dall'upload cifrato opzionale su Google Drive.
+
 ## v0.13.14 — 2026-11-21
 - Il backup Google Drive opzionale rileva anche modifiche a familiari, preferenze e associazioni, oltre ai referti e al memo.
 - La prima autorizzazione OAuth usa il normale consenso Google; i token restano temporanei e in memoria.
