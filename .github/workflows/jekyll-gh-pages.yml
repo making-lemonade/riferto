@@ -29,6 +29,11 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./riferto
+          name: riferto-pages-${{ github.run_id }}-${{ github.run_attempt }}
+      - name: Let GitHub index the uploaded artifact
+        run: sleep 8
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: riferto-pages-${{ github.run_id }}-${{ github.run_attempt }}
