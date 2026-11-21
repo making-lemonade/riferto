@@ -19,7 +19,7 @@
     '<p class="caption">Funziona con Riferto aperto e accesso Google attivo. Se la sessione scade, il backup rimane in attesa di una nuova connessione. Non funziona con la PWA chiusa.</p>',
     '<label class="field"><span>Client ID OAuth Google (app Web)</span><input id="rifertoDriveClientId" type="text" spellcheck="false" autocapitalize="none" autocomplete="off" placeholder="...apps.googleusercontent.com"></label>',
     '<div class="settings-actions"><button id="rifertoDrivePrepare" class="secondary-btn" type="button">1. Prepara Google</button><button id="rifertoDriveConnect" class="primary-btn" type="button" disabled>2. Collega Drive</button></div>',
-    '<label class="riferto-drive-toggle"><input id="rifertoDriveAuto" type="checkbox"><span>Backup automatico dopo ogni modifica</span></label>',
+    '<label class="riferto-drive-toggle"><input id="rifertoDriveAuto" type="checkbox"><span>Backup automatico dopo salvataggi, modifiche e cancellazioni</span></label>',
     '<div class="settings-actions"><button id="rifertoDriveUpload" class="secondary-btn" type="button">Carica backup ora</button><button id="rifertoDriveDisconnect" class="secondary-btn" type="button">Scollega</button></div>',
     '<p id="rifertoDriveStatus" class="caption" role="status" aria-live="polite"></p>',
     '<details class="settings-disclosure"><summary><span>Configurazione Google Cloud</span><small>Ottieni un Client ID OAuth</small></summary>',
@@ -113,7 +113,7 @@
   connect.addEventListener('click',()=>{
     if(!googleClient){status('Prepara prima il modulo Google');return}
     // Must be called directly in the user click on iOS to avoid popup blocking.
-    try{googleClient.requestAccessToken({prompt:''})}catch(e){status('Accesso Google non disponibile: '+e.message)}
+    try{googleClient.requestAccessToken()}catch(e){status('Accesso Google non disponibile: '+e.message)}
   });
   input.addEventListener('input',()=>{
     accessToken='';tokenUntil=0;googleClient=null;connect.disabled=true;
@@ -225,6 +225,7 @@
   upload.addEventListener('click',()=>{localStorage.setItem(K.pending,'true');flush(true)});
   window.addEventListener('riferto:report-saved',markChanged);
   window.addEventListener('riferto:backup-memo-updated',markChanged);
+  window.addEventListener('riferto:backup-dirty',markChanged);
   window.addEventListener('riferto:report-deleted',markChanged);
   window.addEventListener('online',()=>{if(isPending()&&hasToken())schedule()});
   window.addEventListener('riferto:backup-key-ready',()=>{if(isPending()&&hasToken())schedule()});

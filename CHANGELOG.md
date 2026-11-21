@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.13.14 — 2026-11-21
+- Il backup Google Drive opzionale rileva anche modifiche a familiari, preferenze e associazioni, oltre ai referti e al memo.
+- La prima autorizzazione OAuth usa il normale consenso Google; i token restano temporanei e in memoria.
+
 ## v0.13.13 — 2026-11-21
 - Introdotto un modulo opzionale per inviare backup .riferto cifrati a Google Drive, con autorizzazione OAuth dell'utente e sincronizzazione quando l'app resta aperta e collegata. Necessario configurare un proprio OAuth Client ID e verificare l'accesso su iOS.
 - Aggiunto un memo backup cifrato e modificabile in Impostazioni senza cambiare chiave o password.

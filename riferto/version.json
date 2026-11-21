@@ -1,5 +1,5 @@
 {
-  "version": "0.13.13",
-  "releasedAt": "2026-11-21T18:00:00+01:00",
-  "notes": "Preparata integrazione opzionale Google Drive per backup .riferto cifrati dopo i salvataggi; memo del backup cifrato e credenziale Password di Apple etichettata Riferto Backup. Richiede Client ID OAuth dell'utente."
+  "version": "0.13.14",
+  "releasedAt": "2026-11-21T18:20:00+01:00",
+  "notes": "Backup Google Drive cifrato opzionale: sincronizzazione dopo le modifiche a referti, familiari, associazioni e preferiti, durante la sessione autorizzata. Memo privato cifrato e credenziale Password di Apple distinta con username Riferto Backup. OAuth Client ID richiesto."
 }

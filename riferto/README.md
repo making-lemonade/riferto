@@ -6,7 +6,7 @@ Riferto è una PWA local-first per archiviare referti sanitari, PDF originali e 
 
 ## Versione
 
-0.13.13
+0.13.14
 
 ## Privacy e sicurezza
 
