@@ -1,5 +1,5 @@
 {
   "version": "0.13.14",
-  "releasedAt": "2026-11-21T18:20:00+01:00",
+  "releasedAt": "2026-11-21T00:06:58.066Z",
   "notes": "Backup Google Drive cifrato opzionale: sincronizzazione dopo le modifiche a referti, familiari, associazioni e preferiti, durante la sessione autorizzata. Memo privato cifrato e credenziale Password di Apple distinta con username Riferto Backup. OAuth Client ID richiesto."
 }
