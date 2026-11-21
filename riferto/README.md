@@ -6,7 +6,7 @@ Riferto è una PWA local-first per archiviare referti sanitari, PDF originali e 
 
 ## Versione
 
-0.13.12
+0.13.13
 
 ## Privacy e sicurezza
 
@@ -54,3 +54,7 @@ Supporto volontario tramite [Buy Me a Coffee](https://www.buymeacoffee.com/dvaid
 ## Condivisione
 
 Il pulsante **Condividi** invia esclusivamente il link pubblico dell'app (`https://making-lemonade.github.io/riferto/`) tramite il menu nativo, oppure copia il link. Non condivide referti o dati sanitari.
+
+## Google Drive — backup cifrati (facoltativo)
+
+Dalla sezione Impostazioni si può preparare un Client ID OAuth Web creato su Google Cloud (origine autorizzata: `https://making-lemonade.github.io`), poi collegare Drive. Il consenso usa il permesso `drive.file`; vengono caricati solo archivi `.riferto` cifrati nella cartella `Riferto Backups`. I token OAuth rimangono in memoria, non in localStorage. La sincronizzazione avviene solo mentre la PWA è aperta e autorizzata: quando scade la sessione bisogna riconnettersi. Non è stata verificata su iPhone reale. Il nuovo memo è cifrato con la chiave backup; il vecchio indizio password resta leggibile nell'intestazione non cifrata del file.

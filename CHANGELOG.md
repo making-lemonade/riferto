@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.13.13 — 2026-11-21
+- Introdotto un modulo opzionale per inviare backup .riferto cifrati a Google Drive, con autorizzazione OAuth dell'utente e sincronizzazione quando l'app resta aperta e collegata. Necessario configurare un proprio OAuth Client ID e verificare l'accesso su iOS.
+- Aggiunto un memo backup cifrato e modificabile in Impostazioni senza cambiare chiave o password.
+- La credenziale è etichettata come Riferto Backup per il riempimento automatico; il dominio rimane making-lemonade.github.io.
+- Le risposte Google non sono intercettate o salvate in cache dal service worker.
+
 ## v0.13.12 — 2026-11-21
 - Aggiunto il pulsante Condividi nella home e nella schermata d'installazione.
 - Condivisione tramite Web Share API dove disponibile; altrimenti copia del solo link pubblico.

@@ -9,7 +9,6 @@
   const KEY='riferto-gdrive-';
   const K={client:KEY+'client-id',folder:KEY+'folder-id',auto:KEY+'auto',pending:KEY+'pending',last:KEY+'last'};
   const FOLDER='Riferto Backups';
-  const LIMIT=5*1024*1024;
   const stack=document.querySelector('.settings-stack');
   if(!stack)return;
   const card=document.createElement('article');
@@ -99,6 +98,7 @@
             status('Permesso Drive negato');return;
           }
           accessToken=response.access_token;
+          localStorage.removeItem(K.folder); // Account might have changed since the previous session.
           tokenUntil=Date.now()+(Number(response.expires_in)||3600)*1000;
           status('Collegato');
           if(toggle.checked){localStorage.setItem(K.pending,'true');schedule()}
@@ -224,6 +224,7 @@
   function markChanged(){if(!toggle.checked)return;changes++;localStorage.setItem(K.pending,'true');schedule()}
   upload.addEventListener('click',()=>{localStorage.setItem(K.pending,'true');flush(true)});
   window.addEventListener('riferto:report-saved',markChanged);
+  window.addEventListener('riferto:backup-memo-updated',markChanged);
   window.addEventListener('riferto:report-deleted',markChanged);
   window.addEventListener('online',()=>{if(isPending()&&hasToken())schedule()});
   window.addEventListener('riferto:backup-key-ready',()=>{if(isPending()&&hasToken())schedule()});

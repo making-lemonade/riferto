@@ -60,6 +60,7 @@ onboarding.innerHTML=`
   <p class="eyebrow">Prima di iniziare</p>
   <h2>Password del backup</h2>
   <p class="muted">Questa password protegge i backup automatici. È separata dal PIN con cui apri Riferto.</p>
+  <label class="field"><span>Credenziale Password di Apple</span><input type="text" name="username" autocomplete="username" value="Riferto Backup" readonly /></label>
   <label class="field"><span>Password backup</span><input id="backupSetupPassword" type="password" autocomplete="new-password" minlength="6" /></label>
   <label class="field"><span>Conferma password backup</span><input id="backupSetupConfirm" type="password" autocomplete="new-password" minlength="6" /></label>
   <label class="field"><span>Frase-promemoria (visibile nel file)</span><input id="backupSetupHint" type="text" maxlength="120" autocomplete="off" placeholder="Un indizio che solo tu capisci" /></label><label class="field"><span>Memo privato cifrato (facoltativo)</span><textarea id="backupSetupMemo" autocomplete="off" maxlength="400" rows="2" placeholder="Una nota che non verrà mostrata prima dello sblocco"></textarea></label>
@@ -71,8 +72,32 @@ lockCard?.insertBefore(onboarding,lockIntroSetup?.nextSibling||lockCard.firstChi
 const setupDialog=document.createElement('dialog');
 setupDialog.id='backupSecurityDialog';
 setupDialog.className='sheet-dialog backup-security-dialog';
-setupDialog.innerHTML=`<form class="sheet glass" method="dialog" id="backupSecurityForm"><div class="sheet-handle"></div><div class="sheet-head"><div><p class="eyebrow">Protezione backup</p><h2>Configura password backup</h2></div><button type="button" id="closeBackupSecurityDialog" class="icon-btn">✕</button></div><p class="muted">Serve per cifrare i backup automatici. Il PIN di Riferto rimane separato.</p><label class="field"><span>Password backup</span><input id="existingBackupPassword" type="password" autocomplete="new-password" minlength="6" /></label><label class="field"><span>Conferma password backup</span><input id="existingBackupConfirm" type="password" autocomplete="new-password" minlength="6" /></label><label class="field"><span>Frase-promemoria (visibile nel file)</span><input id="existingBackupHint" type="text" maxlength="120" autocomplete="off" /></label><label class="field"><span>Memo privato cifrato (facoltativo)</span><textarea id="existingBackupMemo" autocomplete="off" maxlength="400" rows="2" placeholder="Una nota cifrata insieme al backup"></textarea></label><label class="field"><span>PIN Riferto attuale</span><input id="existingBackupPin" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" /></label><p class="caption">La frase-promemoria può essere mostrata durante il recupero. Non inserirci la password.</p><p id="existingBackupError" class="error-text"></p><div class="sheet-actions"><button type="submit" class="primary-btn">Salva protezione backup</button></div></form>`;
+setupDialog.innerHTML=`<form class="sheet glass" method="dialog" id="backupSecurityForm"><div class="sheet-handle"></div><div class="sheet-head"><div><p class="eyebrow">Protezione backup</p><h2>Configura password backup</h2></div><button type="button" id="closeBackupSecurityDialog" class="icon-btn">✕</button></div><p class="muted">Serve per cifrare i backup; è separata dal PIN. In Password di Apple crea una credenziale chiamata “Riferto Backup” per questo sito.</p><label class="field"><span>Nome credenziale</span><input type="text" name="username" autocomplete="username" value="Riferto Backup" readonly /></label><label class="field"><span>Password backup</span><input id="existingBackupPassword" type="password" autocomplete="new-password" minlength="6" /></label><label class="field"><span>Conferma password backup</span><input id="existingBackupConfirm" type="password" autocomplete="new-password" minlength="6" /></label><label class="field"><span>Frase-promemoria (visibile nel file)</span><input id="existingBackupHint" type="text" maxlength="120" autocomplete="off" /></label><label class="field"><span>Memo privato cifrato (facoltativo)</span><textarea id="existingBackupMemo" autocomplete="off" maxlength="400" rows="2" placeholder="Una nota cifrata insieme al backup"></textarea></label><label class="field"><span>PIN Riferto attuale</span><input id="existingBackupPin" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" /></label><p class="caption">La frase-promemoria può essere mostrata durante il recupero. Non inserirci la password.</p><p id="existingBackupError" class="error-text"></p><div class="sheet-actions"><button type="submit" class="primary-btn">Salva protezione backup</button></div></form>`;
 document.body.appendChild(setupDialog);
+
+/* An unlocked user can edit the encrypted backup memo without rotating the password/key. */
+const memoCard=document.createElement('article');
+memoCard.className='glass settings-card riferto-backup-memo-card';
+memoCard.innerHTML=[
+  '<p class="eyebrow">Credenziali</p><h3>Password e memo del backup</h3>',
+  '<p class="muted">Per Password di Apple usa il nome utente <strong>Riferto Backup</strong> sul sito <strong>making-lemonade.github.io</strong>. Non è possibile imporre un sito separato con lo stesso dominio.</p>',
+  '<p class="caption">La frase-promemoria è visibile nel file; il memo qui sotto è cifrato e leggibile soltanto dopo lo sblocco.</p>',
+  '<label class="field"><span>Memo privato cifrato (facoltativo)</span><textarea id="rifertoMemoEditor" maxlength="400" rows="3" autocomplete="off" placeholder="Una nota personale, non la password"></textarea></label>',
+  '<div class="settings-actions"><button id="rifertoMemoLoad" class="secondary-btn" type="button">Leggi memo</button><button id="rifertoMemoSave" class="primary-btn" type="button">Salva memo cifrato</button></div>',
+  '<p class="caption" id="rifertoMemoStatus" role="status" aria-live="polite"></p>'
+].join('');
+document.querySelector('.settings-stack')?.appendChild(memoCard);
+const memoEditor=memoCard.querySelector('#rifertoMemoEditor');
+const memoStatus=memoCard.querySelector('#rifertoMemoStatus');
+memoCard.querySelector('#rifertoMemoLoad').addEventListener('click',async()=>{
+  try{memoEditor.value=await window.RifertoGetBackupMemo();memoStatus.textContent='Memo caricato sul dispositivo.';}
+  catch(e){memoStatus.textContent=e?.message||'Memo non disponibile.';}
+});
+memoCard.querySelector('#rifertoMemoSave').addEventListener('click',async()=>{
+  try{await window.RifertoSetBackupMemo(memoEditor.value);memoStatus.textContent='Memo aggiornato e cifrato nel backup.';}
+  catch(e){memoStatus.textContent=e?.message||'Salvataggio memo non riuscito.';}
+});
+
 
 const setupStyle=document.createElement('style');
 setupStyle.textContent=`.backup-password-onboarding{margin-top:16px}.backup-password-onboarding h2{font-size:1.35rem;margin:0 0 8px}.backup-password-onboarding .field{margin:12px 0}.backup-password-onboarding .primary-btn{width:100%;margin-top:8px}.backup-setup-hidden{display:none!important}.backup-security-dialog{z-index:30000}`;

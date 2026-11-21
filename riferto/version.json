@@ -1,5 +1,5 @@
 {
-  "version": "0.13.12",
-  "releasedAt": "2026-11-21T01:05:00+01:00",
-  "notes": "Aggiunto il pulsante Condividi nella barra superiore e nella schermata di installazione: menu nativo iOS/Android o copia del link; condivide solo l'URL pubblico e non i referti."
+  "version": "0.13.13",
+  "releasedAt": "2026-11-21T18:00:00+01:00",
+  "notes": "Preparata integrazione opzionale Google Drive per backup .riferto cifrati dopo i salvataggi; memo del backup cifrato e credenziale Password di Apple etichettata Riferto Backup. Richiede Client ID OAuth dell'utente."
 }
