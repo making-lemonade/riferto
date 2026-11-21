@@ -13,6 +13,35 @@ async function setupSeal(key,raw,aad){const iv=crypto.getRandomValues(new Uint8A
 async function setupOpen(key,box,aad){return crypto.subtle.decrypt({name:'AES-GCM',iv:setupUnb64(box.iv),additionalData:teSetup.encode(aad)},key,setupUnb64(box.ciphertext))}
 async function verifyExistingPin(pin,security){try{const key=await setupDerive(pin,setupUnb64(security.salt),security.iterations||RIFERTO_ITERATIONS);await setupOpen(key,security.wrappedKey,'riferto-key-v1');return true}catch{return false}}
 
+
+/* The optional memo is encrypted under the backup key, not stored in plaintext metadata. */
+const MEMO_AAD='riferto-backup-memo-v1';
+async function encryptBackupMemo(memo,key=window.RifertoBackupSessionKey){
+  if(!memo)return null;
+  if(!key)throw new Error('Sblocca Riferto prima di salvare il memo.');
+  const iv=crypto.getRandomValues(new Uint8Array(12));
+  const bytes=await crypto.subtle.encrypt({name:'AES-GCM',iv,additionalData:teSetup.encode(MEMO_AAD)},key,teSetup.encode(memo));
+  return {iv:setupB64(iv),ciphertext:setupB64(bytes)};
+}
+async function decryptBackupMemo(box){
+  if(!box)return '';
+  const key=window.RifertoBackupSessionKey;
+  if(!key)throw new Error('Sblocca Riferto per leggere il memo.');
+  const plain=await crypto.subtle.decrypt({name:'AES-GCM',iv:setupUnb64(box.iv),additionalData:teSetup.encode(MEMO_AAD)},key,setupUnb64(box.ciphertext));
+  return new TextDecoder().decode(plain);
+}
+window.RifertoGetBackupMemo=async()=>{
+  const backup=await setupMeta('backup-security');
+  return decryptBackupMemo(backup?.memoBox);
+};
+window.RifertoSetBackupMemo=async memo=>{
+  if(typeof memo!=='string'||memo.length>400)throw new Error('Memo massimo 400 caratteri.');
+  const backup=await setupMeta('backup-security');
+  if(!backup)throw new Error('Configura prima la password del backup.');
+  const memoBox=await encryptBackupMemo(memo.trim());
+  await setupPutMeta({...backup,memoBox});
+  window.dispatchEvent(new Event('riferto:backup-memo-updated'));
+};
 const lockCard=document.querySelector('.lock-card');
 const pinFields=[document.querySelector('#pinInput')?.closest('.field'),document.querySelector('#pinConfirmField')];
 const unlockBtnSetup=document.querySelector('#unlockBtn');
@@ -33,7 +62,7 @@ onboarding.innerHTML=`
   <p class="muted">Questa password protegge i backup automatici. È separata dal PIN con cui apri Riferto.</p>
   <label class="field"><span>Password backup</span><input id="backupSetupPassword" type="password" autocomplete="new-password" minlength="6" /></label>
   <label class="field"><span>Conferma password backup</span><input id="backupSetupConfirm" type="password" autocomplete="new-password" minlength="6" /></label>
-  <label class="field"><span>Frase-promemoria</span><input id="backupSetupHint" type="text" maxlength="120" autocomplete="off" placeholder="Es. il posto della nostra prima vacanza" /></label>
+  <label class="field"><span>Frase-promemoria (visibile nel file)</span><input id="backupSetupHint" type="text" maxlength="120" autocomplete="off" placeholder="Un indizio che solo tu capisci" /></label><label class="field"><span>Memo privato cifrato (facoltativo)</span><textarea id="backupSetupMemo" autocomplete="off" maxlength="400" rows="2" placeholder="Una nota che non verrà mostrata prima dello sblocco"></textarea></label>
   <p class="caption">Il promemoria potrà essere mostrato durante il recupero. Non inserire qui la password né informazioni troppo esplicite.</p>
   <p id="backupSetupError" class="error-text"></p>
   <button id="backupSetupContinue" class="primary-btn" type="button">Continua e crea il PIN</button>`;
@@ -42,7 +71,7 @@ lockCard?.insertBefore(onboarding,lockIntroSetup?.nextSibling||lockCard.firstChi
 const setupDialog=document.createElement('dialog');
 setupDialog.id='backupSecurityDialog';
 setupDialog.className='sheet-dialog backup-security-dialog';
-setupDialog.innerHTML=`<form class="sheet glass" method="dialog" id="backupSecurityForm"><div class="sheet-handle"></div><div class="sheet-head"><div><p class="eyebrow">Protezione backup</p><h2>Configura password backup</h2></div><button type="button" id="closeBackupSecurityDialog" class="icon-btn">✕</button></div><p class="muted">Serve per cifrare i backup automatici. Il PIN di Riferto rimane separato.</p><label class="field"><span>Password backup</span><input id="existingBackupPassword" type="password" autocomplete="new-password" minlength="6" /></label><label class="field"><span>Conferma password backup</span><input id="existingBackupConfirm" type="password" autocomplete="new-password" minlength="6" /></label><label class="field"><span>Frase-promemoria</span><input id="existingBackupHint" type="text" maxlength="120" autocomplete="off" /></label><label class="field"><span>PIN Riferto attuale</span><input id="existingBackupPin" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" /></label><p class="caption">La frase-promemoria può essere mostrata durante il recupero. Non inserirci la password.</p><p id="existingBackupError" class="error-text"></p><div class="sheet-actions"><button type="submit" class="primary-btn">Salva protezione backup</button></div></form>`;
+setupDialog.innerHTML=`<form class="sheet glass" method="dialog" id="backupSecurityForm"><div class="sheet-handle"></div><div class="sheet-head"><div><p class="eyebrow">Protezione backup</p><h2>Configura password backup</h2></div><button type="button" id="closeBackupSecurityDialog" class="icon-btn">✕</button></div><p class="muted">Serve per cifrare i backup automatici. Il PIN di Riferto rimane separato.</p><label class="field"><span>Password backup</span><input id="existingBackupPassword" type="password" autocomplete="new-password" minlength="6" /></label><label class="field"><span>Conferma password backup</span><input id="existingBackupConfirm" type="password" autocomplete="new-password" minlength="6" /></label><label class="field"><span>Frase-promemoria (visibile nel file)</span><input id="existingBackupHint" type="text" maxlength="120" autocomplete="off" /></label><label class="field"><span>Memo privato cifrato (facoltativo)</span><textarea id="existingBackupMemo" autocomplete="off" maxlength="400" rows="2" placeholder="Una nota cifrata insieme al backup"></textarea></label><label class="field"><span>PIN Riferto attuale</span><input id="existingBackupPin" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" /></label><p class="caption">La frase-promemoria può essere mostrata durante il recupero. Non inserirci la password.</p><p id="existingBackupError" class="error-text"></p><div class="sheet-actions"><button type="submit" class="primary-btn">Salva protezione backup</button></div></form>`;
 document.body.appendChild(setupDialog);
 
 const setupStyle=document.createElement('style');
@@ -72,6 +101,7 @@ async function prepareBackupPassword(){
   const password=document.querySelector('#backupSetupPassword').value;
   const confirm=document.querySelector('#backupSetupConfirm').value;
   const hint=document.querySelector('#backupSetupHint').value.trim();
+  const memo=document.querySelector('#backupSetupMemo').value.trim();
   const error=document.querySelector('#backupSetupError');
   error.textContent='';
   if(password.length<6){error.textContent='Usa almeno 6 caratteri per la password del backup.';return}
@@ -81,7 +111,7 @@ async function prepareBackupPassword(){
   const backupRaw=crypto.getRandomValues(new Uint8Array(32));
   const passwordKey=await setupDerive(password,salt);
   pendingBackupRaw=backupRaw;
-  pendingBackupBase={version:1,kdf:'PBKDF2-SHA256',iterations:RIFERTO_ITERATIONS,salt:setupB64(salt),hint,wrappedByPassword:await setupSeal(passwordKey,backupRaw,'riferto-backup-master-v1')};
+  pendingBackupBase={version:1,kdf:'PBKDF2-SHA256',iterations:RIFERTO_ITERATIONS,salt:setupB64(salt),hint,pendingMemo:memo,wrappedByPassword:await setupSeal(passwordKey,backupRaw,'riferto-backup-master-v1')};
   document.querySelector('#backupSetupPassword').value='';
   document.querySelector('#backupSetupConfirm').value='';
   showPinStep();
@@ -96,7 +126,10 @@ async function finalizeBackup(pin){
   if(!security)return;
   const pinKey=await setupDerive(pin,setupUnb64(security.salt),security.iterations||RIFERTO_ITERATIONS);
   const wrappedByPin=await setupSeal(pinKey,pendingBackupRaw,'riferto-backup-master-pin-v1');
-  await setupPutMeta({id:'backup-security',...pendingBackupBase,wrappedByPin});
+  const {pendingMemo='',...backupBase}=pendingBackupBase;
+  const memoKey=await crypto.subtle.importKey('raw',pendingBackupRaw,'AES-GCM',false,['encrypt','decrypt']);
+  const memoBox=await encryptBackupMemo(pendingMemo,memoKey);
+  await setupPutMeta({id:'backup-security',...backupBase,wrappedByPin,memoBox});
   window.RifertoBackupSessionKey=await crypto.subtle.importKey('raw',pendingBackupRaw,'AES-GCM',false,['encrypt','decrypt']);
   window.RifertoBackupHint=pendingBackupBase.hint;
   pendingBackupRaw=null;pendingBackupBase=null;
@@ -119,6 +152,7 @@ async function configureExistingBackup(){
   const password=document.querySelector('#existingBackupPassword').value;
   const confirm=document.querySelector('#existingBackupConfirm').value;
   const hint=document.querySelector('#existingBackupHint').value.trim();
+  const memo=document.querySelector('#existingBackupMemo').value.trim();
   const pin=document.querySelector('#existingBackupPin').value.trim();
   const error=document.querySelector('#existingBackupError');
   error.textContent='';
@@ -132,7 +166,9 @@ async function configureExistingBackup(){
   const raw=crypto.getRandomValues(new Uint8Array(32));
   const passwordKey=await setupDerive(password,salt);
   const pinKey=await setupDerive(pin,setupUnb64(security.salt),security.iterations||RIFERTO_ITERATIONS);
-  const value={id:'backup-security',version:1,kdf:'PBKDF2-SHA256',iterations:RIFERTO_ITERATIONS,salt:setupB64(salt),hint,wrappedByPassword:await setupSeal(passwordKey,raw,'riferto-backup-master-v1'),wrappedByPin:await setupSeal(pinKey,raw,'riferto-backup-master-pin-v1')};
+  const memoKey=await crypto.subtle.importKey('raw',raw,'AES-GCM',false,['encrypt','decrypt']);
+  const memoBox=await encryptBackupMemo(memo,memoKey);
+  const value={id:'backup-security',version:1,kdf:'PBKDF2-SHA256',iterations:RIFERTO_ITERATIONS,salt:setupB64(salt),hint,memoBox,wrappedByPassword:await setupSeal(passwordKey,raw,'riferto-backup-master-v1'),wrappedByPin:await setupSeal(pinKey,raw,'riferto-backup-master-pin-v1')};
   await setupPutMeta(value);
   window.RifertoBackupSessionKey=await crypto.subtle.importKey('raw',raw,'AES-GCM',false,['encrypt','decrypt']);
   window.RifertoBackupHint=hint;
