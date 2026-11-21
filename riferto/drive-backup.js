@@ -101,7 +101,7 @@
           localStorage.removeItem(K.folder); // Account might have changed since the previous session.
           tokenUntil=Date.now()+(Number(response.expires_in)||3600)*1000;
           status('Collegato');
-          if(toggle.checked){localStorage.setItem(K.pending,'true');schedule()}
+          if(toggle.checked&&(isPending()||!localStorage.getItem(K.last))){localStorage.setItem(K.pending,'true');schedule()}
         },
         error_callback:error=>status(error?.type==='popup_closed'?'Accesso annullato':'Popup Google non disponibile: prova da Safari')
       });
